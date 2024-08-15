@@ -1,95 +1,145 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// pages/index.js
+
+import { Box, Button, Container, Typography, Grid, Card, CardContent } from '@mui/material';
+import { SignedOut, SignedIn } from '@clerk/nextjs';
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <Container maxWidth="lg">
+      {/* Hero Section */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '60vh',
+          textAlign: 'center',
+          py: 8,
+        }}
+      >
+        <Typography variant="h2" component="h1" gutterBottom>
+          Flashcard Builder
+        </Typography>
+        <Typography variant="h5" color="textSecondary" paragraph>
+          Turn your notes into interactive flashcards instantly.
+        </Typography>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <Box sx={{ mt: 4 }}>
+          <SignedOut>
+            <Button href='/sign-up' variant="contained" color="primary" size="large" sx={{ mr: 2 }}>
+              Sign Up
+            </Button>
+            <Button href='/sign-in' variant="outlined" color="primary" size="large">
+              Login
+            </Button>
+          </SignedOut>
+          <SignedIn>
+            <Typography variant="p" color="textSecondary" sx={{ mr: 1 }}>
+              Go to your
+            </Typography>
+            <Button href='/flashcards' variant="contained" color="primary" size="large" sx={{ mr: 2 }}>
+              Dashboard
+            </Button>
+          </SignedIn>
+        </Box>
+      </Box>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+      {/* Features Section */}
+      <Box sx={{ py: 8 }}>
+        <Typography variant="h4" component="h2" gutterBottom textAlign="center">
+          Key Features
+        </Typography>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={4}>
+            <Box textAlign="center">
+              <Typography variant="h6" gutterBottom>
+                AI-Powered Flashcards
+              </Typography>
+              <Typography color="textSecondary">
+                Automatically generate flashcards from your text notes using AI.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box textAlign="center">
+              <Typography variant="h6" gutterBottom>
+                Customizable Layouts
+              </Typography>
+              <Typography color="textSecondary">
+                Tailor your flashcards to suit your learning style with various design options.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box textAlign="center">
+              <Typography variant="h6" gutterBottom>
+                Sync Across Devices
+              </Typography>
+              <Typography color="textSecondary">
+                Access your flashcards on any device, anytime, anywhere.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      {/* Pricing Section */}
+      <Box sx={{ py: 8, textAlign: 'center' }}>
+        <Typography variant="h4" component="h2" gutterBottom>
+          Pricing
+        </Typography>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Free Plan
+                </Typography>
+                <Typography variant="h6">$0 / month</Typography>
+                <Typography color="textSecondary" paragraph>
+                  Basic features for casual learners.
+                </Typography>
+                <Button variant="contained" color="primary">
+                  Sign Up
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Pro Plan
+                </Typography>
+                <Typography variant="h6">$9.99 / month</Typography>
+                <Typography color="textSecondary" paragraph>
+                  Advanced features for power users.
+                </Typography>
+                <Button variant="contained" color="primary">
+                  Sign Up
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Enterprise Plan
+                </Typography>
+                <Typography variant="h6">Contact Us</Typography>
+                <Typography color="textSecondary" paragraph>
+                  Custom solutions for teams and organizations.
+                </Typography>
+                <Button variant="contained" color="primary">
+                  Contact Sales
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
   );
 }
