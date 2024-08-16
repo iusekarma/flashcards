@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import db from "@/firebase";
-import { useState } from 'react'
+import { useState } from 'react';
 import {
     Container,
     TextField,
@@ -15,77 +15,80 @@ import {
     DialogContent,
     DialogContentText,
     DialogActions
-} from '@mui/material'
+} from '@mui/material';
 import { useUser } from "@clerk/nextjs";
-import { collection, doc, getDoc, writeBatch } from 'firebase/firestore'
+import { collection, doc, getDoc, writeBatch } from 'firebase/firestore';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 export default function Generate() {
     const { isLoaded, isSignedIn, user } = useUser();
-    const [text, setText] = useState('')
-    const [flashcards, setFlashcards] = useState([])
-    const [setName, setSetName] = useState('')
-    const [dialogOpen, setDialogOpen] = useState(false)
+    const [text, setText] = useState('');
+    const [flashcards, setFlashcards] = useState([]);
+    const [setName, setSetName] = useState('');
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const router = useRouter(); // Initialize useRouter
 
-    const handleOpenDialog = () => setDialogOpen(true)
-    const handleCloseDialog = () => setDialogOpen(false)
+    const handleOpenDialog = () => setDialogOpen(true);
+    const handleCloseDialog = () => setDialogOpen(false);
 
     const saveFlashcards = async () => {
         if (!setName.trim()) {
-            alert('Please enter a name for your flashcard set.')
-            return
+            alert('Please enter a name for your flashcard set.');
+            return;
         }
 
         try {
-            const userDocRef = doc(collection(db, 'users'), user.id)
-            const userDocSnap = await getDoc(userDocRef)
+            const userDocRef = doc(collection(db, 'users'), user.id);
+            const userDocSnap = await getDoc(userDocRef);
 
-            const batch = writeBatch(db)
+            const batch = writeBatch(db);
 
             if (userDocSnap.exists()) {
-                const userData = userDocSnap.data()
-                const updatedSets = [...(userData.flashcardSets || []), { name: setName }]
-                batch.update(userDocRef, { flashcardSets: updatedSets })
+                const userData = userDocSnap.data();
+                const updatedSets = [...(userData.flashcardSets || []), { name: setName }];
+                batch.update(userDocRef, { flashcardSets: updatedSets });
             } else {
-                batch.set(userDocRef, { flashcardSets: [{ name: setName }] })
+                batch.set(userDocRef, { flashcardSets: [{ name: setName }] });
             }
 
-            const setDocRef = doc(collection(userDocRef, 'flashcardSets'), setName)
-            batch.set(setDocRef, { flashcards })
+            const setDocRef = doc(collection(userDocRef, 'flashcardSets'), setName);
+            batch.set(setDocRef, { flashcards });
 
-            await batch.commit()
+            await batch.commit();
 
-            alert('Flashcards saved successfully!')
-            handleCloseDialog()
-            setSetName('')
+            alert('Flashcards saved successfully!');
+            handleCloseDialog();
+            setSetName('');
+            router.push('/flashcards'); // Navigate to the Flashcards page
         } catch (error) {
-            console.error('Error saving flashcards:', error)
-            alert('An error occurred while saving flashcards. Please try again.')
+            console.error('Error saving flashcards:', error);
+            alert('An error occurred while saving flashcards. Please try again.');
         }
-    }
+    };
 
     const handleSubmit = async () => {
         if (!text.trim()) {
-            alert('Please enter some text to generate flashcards.')
-            return
+            alert('Please enter some text to generate flashcards.');
+            return;
         }
 
         try {
             const response = await fetch('/api/generate', {
                 method: 'POST',
                 body: text,
-            })
+            });
 
             if (!response.ok) {
-                throw new Error('Failed to generate flashcards')
+                throw new Error('Failed to generate flashcards');
             }
 
-            const data = await response.json()
-            setFlashcards(data)
+            const data = await response.json();
+            setFlashcards(data);
         } catch (error) {
-            console.error('Error generating flashcards:', error)
-            alert('An error occurred while generating flashcards. Please try again.')
+            console.error('Error generating flashcards:', error);
+            alert('An error occurred while generating flashcards. Please try again.');
         }
-    }
+    };
 
     return (
         <Container maxWidth="md">
@@ -164,5 +167,5 @@ export default function Generate() {
                 </DialogActions>
             </Dialog>
         </Container>
-    )
+    );
 }
