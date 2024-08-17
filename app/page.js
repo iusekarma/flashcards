@@ -3,6 +3,7 @@
 import { AppBar, Toolbar, Box, Button, Container, Typography, Grid, Card, CardContent } from '@mui/material';
 import { SignedOut, SignedIn, UserButton } from '@clerk/nextjs';
 import getStripe from './utils/get-stripe';
+import { Fullscreen } from '@mui/icons-material';
 
 export default function Home() {
   const handleSubmit = async () => {
@@ -24,23 +25,33 @@ export default function Home() {
   return (
     <Box
       sx={{
-        background: `linear-gradient(135deg, #b8860b, #5a189a, #9b2226, #c2185b)`, // Deep gold, dark violet, deep red, and rich pink
+        backgroundImage: `linear-gradient(133deg,#000000,#000000, #006573, #00124d, #000000, #000000)`,
         backgroundSize: '400% 400%',
-        animation: 'gradientAnimation 15s ease infinite',
+        animation: 'gradientAnimation 20s ease infinite',
         minHeight: '100vh',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.4)', // Adds a subtle depth for a more metallic look
-        color: '#f5f5f5', // Light text color to contrast with the deep background
+        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.4)',
+        color: '#f5f5f5',
+        backdropFilter: 'blur(10px)'
       }}
 
     >
-      <AppBar position="static">
+      <AppBar position="static" 
+      sx={{
+        backgroundColor: 'transparent', // Remove background color
+        boxShadow: 'none' // Optionally remove shadow if desired
+      }}>
         <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Flashcard SaaS
-          </Typography>
+          <Box style={{ flexGrow: 1, marginTop: '30px', marginLeft: '40px' }}>
+            {/* Flashcard SaaS */}
+            {/* <img
+              src="https://static.vecteezy.com/system/resources/thumbnails/009/665/468/small/notes-illustration-3d-free-png.png"
+              alt="Flashcard SaaS Logo"
+              style={{ height: '50px', flexGrow: 1 }} // Adjust height as needed
+            /> */}
+          </Box>
           <SignedOut>
-            <Button color="inherit" href="/sign-in">Login</Button>
-            <Button color="inherit" href="/sign-up">Sign Up</Button>
+            {/* <Button color="inherit" href="/sign-in">Login</Button>
+            <Button color="inherit" href="/sign-up">Sign Up</Button> */}
           </SignedOut>
           <SignedIn>
             <UserButton />
@@ -61,28 +72,31 @@ export default function Home() {
             color: 'white', // Ensure text is readable on the gradient
           }}
         >
-          <Typography variant="h2" component="h1" gutterBottom>
-            Flashcard Builder
+          <img
+              src="https://static.vecteezy.com/system/resources/thumbnails/009/665/468/small/notes-illustration-3d-free-png.png"
+              alt="Flashcard SaaS Logo"
+              style={{ height: '100px'}} // Adjust height as needed
+            />
+          <Typography variant="h2" component="h1" gutterBottom sx={{ fontFamily: 'Lato, sans-serif' }} >
+            Cardify
           </Typography>
-          <Typography variant="h5" color="textSecondary" paragraph>
+          <Typography paragraph sx={{ color: 'white',fontFamily: '"Segoe UI Emoji"',fontSize: '20px' }}>
             Turn your notes into interactive flashcards instantly.
           </Typography>
 
           <Box sx={{ mt: 4 }}>
             <SignedOut>
-              <Button href='/sign-up' variant="contained" color="primary" size="large" sx={{ mr: 2 }}>
+              <Button href='/sign-up' variant="contained"  size="large" sx={{ mr: 2, backgroundColor: 'yellow', color:'blue' }}>
                 Sign Up
               </Button>
-              <Button href='/sign-in' variant="outlined" color="primary" size="large">
+              <Button href='/sign-in' variant="outlined" size="large" sx={{ color: 'white', borderColor: 'white' }}>
                 Login
               </Button>
             </SignedOut>
             <SignedIn>
-              <Typography variant="p" color="textSecondary" sx={{ mr: 1 }}>
-                Go to your
-              </Typography>
-              <Button href='/flashcards' variant="contained" color="primary" size="large" sx={{ mr: 2 }}>
-                Dashboard
+              
+              <Button href='/flashcards' variant="contained" size="large" sx={{ mr: 2, backgroundColor: 'yellow', color:'blue' }}>
+                My Cards
               </Button>
             </SignedIn>
           </Box>
@@ -90,37 +104,37 @@ export default function Home() {
 
         {/* Features Section */}
         <Box sx={{ py: 8 }}>
-          <Typography variant="h4" component="h2" gutterBottom textAlign="center">
+          <Typography variant="h4" component="h2" gutterBottom textAlign="center" sx={{ marginBottom: 8 }}>
             Key Features
           </Typography>
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
-              <Box textAlign="center">
+              <Box textAlign="center" padding={8} sx={{ border: '2px solid grey' }} >
                 <Typography variant="h6" gutterBottom>
                   AI-Powered Flashcards
                 </Typography>
-                <Typography color="textSecondary">
+                <Typography color="textSecondary" sx={{ color: 'white'}}>
                   Automatically generate flashcards from your text notes using AI.
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Box textAlign="center">
+              <Box textAlign="center" padding={8} sx={{ border: '2px solid grey' }}>
                 <Typography variant="h6" gutterBottom>
                   Customizable Layouts
                 </Typography>
-                <Typography color="textSecondary">
+                <Typography color="textSecondary" sx={{ color: 'white'}}>
                   Tailor your flashcards to suit your learning style with various design options.
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Box textAlign="center">
+              <Box textAlign="center" padding={8}  sx={{ border: '2px solid grey', height: 'full', borderBlockStyle: 'round' }}>
                 <Typography variant="h6" gutterBottom>
                   Sync Across Devices
                 </Typography>
-                <Typography color="textSecondary">
-                  Access your flashcards on any device, anytime, anywhere.
+                <Typography color="textSecondary" sx={{ color: 'white'}}>
+                  Access your flashcards on any device, anytime, anywhere, anytime, anywhere.
                 </Typography>
               </Box>
             </Grid>
@@ -129,7 +143,7 @@ export default function Home() {
 
         {/* Pricing Section */}
         <Box sx={{ py: 8, textAlign: 'center' }}>
-          <Typography variant="h4" component="h2" gutterBottom>
+          <Typography variant="h4" component="h2" gutterBottom marginBottom={8} >
             Pricing
           </Typography>
           <Grid container spacing={4} justifyContent="center">
