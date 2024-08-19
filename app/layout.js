@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-
+import Script from 'next/script'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <head>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <Script src="https://cdn.tailwindcss.com" strategy="lazyOnload" />
         </head>
         <body className={inter.className}>{children}</body>
       </html>
