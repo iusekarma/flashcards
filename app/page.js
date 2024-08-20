@@ -1,250 +1,323 @@
-// pages/index.js
 'use client'
-import { AppBar, Toolbar, Box, Button, Container, Typography, Grid, Card, CardContent } from '@mui/material';
 import { SignedOut, SignedIn, UserButton } from '@clerk/nextjs';
 import getStripe from './utils/get-stripe';
-import { Fullscreen } from '@mui/icons-material';
+import Image from 'next/image';
 
 export default function Home() {
   const handleSubmit = async () => {
     const checkoutSession = await fetch('/api/checkout_sessions', {
       method: 'POST',
       headers: { origin: 'http://localhost:3000' },
-    })
-    const checkoutSessionJson = await checkoutSession.json()
+    });
+    const checkoutSessionJson = await checkoutSession.json();
 
-    const stripe = await getStripe()
+    const stripe = await getStripe();
     const { error } = await stripe.redirectToCheckout({
       sessionId: checkoutSessionJson.id,
-    })
+    });
 
     if (error) {
-      console.warn(error.message)
+      console.warn(error.message);
     }
-  }
-  return (
-    <Box
-      sx={{
-        backgroundImage: `linear-gradient(133deg,#000000,#000000, #006573, #00124d, #000000, #000000)`,
-        backgroundSize: '400% 400%',
-        animation: 'gradientAnimation 20s ease infinite',
-        minHeight: '100vh',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.4)',
-        color: '#f5f5f5',
-        backdropFilter: 'blur(10px)'
-      }}
+  };
 
-    >
-      <AppBar position="static" 
-      sx={{
-        backgroundColor: 'transparent', // Remove background color
-        boxShadow: 'none' // Optionally remove shadow if desired
-      }}>
-        <Toolbar>
-          <Box style={{ flexGrow: 1, marginTop: '30px', marginLeft: '40px' }}>
-            {/* Flashcard SaaS */}
-            {/* <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/009/665/468/small/notes-illustration-3d-free-png.png"
-              alt="Flashcard SaaS Logo"
-              style={{ height: '50px', flexGrow: 1 }} // Adjust height as needed
-            /> */}
-          </Box>
+  return (
+    <div className="min-h-screen text-black flex flex-col">
+      <div
+          className="fixed inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          aria-hidden="true"
+        >
+          <div
+            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#61c87e] to-[#7069d2] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+            }}
+          />
+        </div>
+        <div
+          className="fixed inset-x-0 top-[40%] -z-10 transform-gpu overflow-hidden blur-3xl"
+          aria-hidden="true"
+        >
+          <div
+            className="relative left-[calc(80%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[180deg] bg-gradient-to-tr from-[#61c87e] to-[#7069d2] opacity-30 sm:left-[-calc(50%-30rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+            }}
+          />
+        </div>
+
+      <header className="bg-transparent p-6 flex justify-between items-center">
+        <div className="ml-10 mt-7">
+          {/* Logo or Title can go here */}
+        </div>
+        <div className="mr-10">
           <SignedOut>
-            {/* <Button color="inherit" href="/sign-in">Login</Button>
-            <Button color="inherit" href="/sign-up">Sign Up</Button> */}
+            {/* Uncomment to enable sign-in and sign-up buttons
+            <a href="/sign-in" className="text-white mr-4">Login</a>
+            <a href="/sign-up" className="text-white">Sign Up</a>
+            */}
           </SignedOut>
           <SignedIn>
             <UserButton />
           </SignedIn>
-        </Toolbar>
-      </AppBar>
-      <Container maxWidth="lg">
-        {/* Hero Section */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '60vh',
-            textAlign: 'center',
-            py: 8,
-            color: 'white', // Ensure text is readable on the gradient
-          }}
-        >
-          <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/009/665/468/small/notes-illustration-3d-free-png.png"
-              alt="Flashcard SaaS Logo"
-              style={{ height: '100px'}} // Adjust height as needed
-            />
-          <Typography variant="h2" component="h1" gutterBottom sx={{ fontFamily: 'Lato, sans-serif' }} >
-            Cardify
-          </Typography>
-          <Typography paragraph sx={{ color: 'white',fontFamily: '"Segoe UI Emoji"',fontSize: '20px' }}>
-            Turn your notes into interactive flashcards instantly.
-          </Typography>
+        </div>
+      </header>
 
-          <Box sx={{ mt: 4 }}>
+      <main className="flex-grow container mx-auto flex flex-col items-center justify-center text-center py-16">
+        <img
+          src="https://static.vecteezy.com/system/resources/thumbnails/009/665/468/small/notes-illustration-3d-free-png.png"
+          alt="Flashcard SaaS Logo"
+          className="h-24 mb-6"
+        />
+        <div
+          className="text-5xl font-semibold bg-gradient-to-r from-gray-800 to-indigo-600 p-4 bg-clip-text text-transparent"
+          style={{ fontFamily: "'Libre Franklin'" }}
+        >
+          Cardify
+        </div>
+        <p className="text-lg font-light mb-8">
+          Turn your notes into interactive flashcards instantly.
+        </p>
+        <div className="mt-2">
+          <SignedOut>
+            <a href="/sign-up" className="px-6 py-3 bg-yellow-500 text-white font-semibold rounded mr-4">Sign Up</a>
+            <a href="/sign-in" className="px-6 py-3 bg-yellow-500 border border-white text-white font-semibold rounded">Login</a>
+          </SignedOut>
+          <SignedIn>
+            <a href="/flashcards" className="px-6 py-3 bg-yellow-500 text-blue-900 font-semibold rounded">My Cards</a>
+          </SignedIn>
+        </div>
+      </main>
+
+      <section className="py-16">
+        {/* <h2 className="text-3xl font-bold text-center mb-10">Key Features</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 md:px-0">
+          <div className="text-center p-8 border-2 border-gray-400 rounded">
+            <h3 className="text-xl font-semibold mb-4">AI-Powered Flashcards</h3>
+            <p>Automatically generate flashcards from your text notes using AI.</p>
+          </div>
+          <div className="text-center p-8 border-2 border-gray-400 rounded">
+            <h3 className="text-xl font-semibold mb-4">Customizable Layouts</h3>
+            <p>Tailor your flashcards to suit your learning style with various design options.</p>
+          </div>
+          <div className="text-center p-8 border-2 border-gray-400 rounded">
+            <h3 className="text-xl font-semibold mb-4">Sync Across Devices</h3>
+            <p>Access your flashcards on any device, anytime, anywhere.</p>
+          </div>
+        </div> */} 
+    <div className="container m-auto px-6 text-gray-500 md:px-12 xl:px-0">
+        <div className="mx-auto grid gap-6 md:w-3/4  lg:grid-cols-3">
+            <div className="bg-cyan-50 rounded-2xl shadow-xl px-8 py-12 sm:px-12 lg:px-8 hover:scale-[1.02] transition duration-300 ease-in-out">
+                <div className="space-y-4">
+                <Image 
+                  src="/images/geminiai.png" 
+                  className="drop-shadow-md rounded-full" 
+                  alt="Site Logo" 
+                  width={60} 
+                  height={60} 
+                />
+
+                    <h3 className="text-2xl font-semibold text-purple-900">Generative AI</h3>
+                    <p className="mb-6">Automatically creates flashcards from your prompts, turning your ideas into interactive study aids with ease.</p>
+                    <div  className="block font-medium text-purple-300">Know more</div>
+                </div>
+            </div>
+            <div className="bg-cyan-50 rounded-2xl shadow-xl px-8 py-12 sm:px-12 lg:px-8 hover:scale-[1.02] transition duration-300 ease-in-out">
+                <div className="space-y-4">
+                    <Image 
+                      src="/images/adaptivity.png" 
+                      className="drop-shadow-md bg-white rounded-full" 
+                      alt="Site Logo" 
+                      width={60} 
+                      height={60} 
+                    />
+                    <h3 className="text-2xl font-semibold text-purple-900">Adaptive Levels</h3>
+                    <p className="mb-6">Customize your learning experience with flashcards categorized into easy, medium, and hard levels based on your proficiency</p>
+                    <div  className="block font-medium text-purple-300">Know more</div>
+
+                </div>
+            </div>
+            <div className="bg-cyan-50 rounded-2xl shadow-xl px-8 py-12 sm:px-12 lg:px-8 hover:scale-[1.02] transition duration-300 ease-in-out">
+                <div className="space-y-4">
+                    <Image 
+                      src="/images/firebase.png" 
+                      className="drop-shadow-md bg-white rounded-full" 
+                      alt="Site Logo" 
+                      width={60} 
+                      height={60} 
+                    />
+                    <h3 className="text-2xl font-semibold text-purple-900">Firestore Keep</h3>
+                    <p className="mb-6">Seamlessly store and access all your generated flashcards in an organized manner with secure, cloud-based storage</p>
+                    <div  className="block font-medium text-purple-300">Know more</div>
+                </div>
+            </div>
+        </div>
+    </div>
+      </section>
+
+      <section className="py-16 text-center">
+        {/* <h2 className="text-3xl font-bold mb-10">Pricing</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-0 justify-center">
+          <div className="bg-blue-900 text-white p-8 rounded shadow-lg transform transition-transform duration-300 hover:scale-105">
+            <h3 className="text-2xl font-bold mb-2">Free Plan</h3>
+            <p className="text-lg mb-4">$0 / month</p>
+            <p>Basic features for casual learners.</p>
             <SignedOut>
-              <Button href='/sign-up' variant="contained"  size="large" sx={{ mr: 2, backgroundColor: 'yellow', color:'blue' }}>
-                Sign Up
-              </Button>
-              <Button href='/sign-in' variant="outlined" size="large" sx={{ color: 'white', borderColor: 'white' }}>
-                Login
-              </Button>
+              <a href="/sign-in" className="mt-4 inline-block px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700">Login</a>
             </SignedOut>
             <SignedIn>
-              
-              <Button href='/flashcards' variant="contained" size="large" sx={{ mr: 2, backgroundColor: 'yellow', color:'blue' }}>
-                My Cards
-              </Button>
+              <a href="/flashcards" className="mt-4 inline-block px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700">Dashboard</a>
             </SignedIn>
-          </Box>
-        </Box>
+          </div>
+          <div className="bg-blue-900 text-white p-8 rounded shadow-lg transform transition-transform duration-300 hover:scale-105">
+            <h3 className="text-2xl font-bold mb-2">Pro Plan</h3>
+            <p className="text-lg mb-4">$10 / month</p>
+            <p>Advanced features for power users.</p>
+            <button
+              onClick={handleSubmit}
+              className="mt-4 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Get Pro
+            </button>
+          </div>
+        </div> */}
+        <div className="flex flex-col items-center p-10 text-gray-700 md:p-20"> 
+	<h2 className="text-2xl font-medium">Membership</h2>
 
-        {/* Features Section */}
-        <Box sx={{ py: 8 }}>
-          <Typography variant="h4" component="h2" gutterBottom textAlign="center" sx={{ marginBottom: 8 }}>
-            Key Features
-          </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Box textAlign="center" padding={8} sx={{ border: '2px solid grey' }} >
-                <Typography variant="h6" gutterBottom>
-                  AI-Powered Flashcards
-                </Typography>
-                <Typography color="textSecondary" sx={{ color: 'white'}}>
-                  Automatically generate flashcards from your text notes using AI.
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Box textAlign="center" padding={8} sx={{ border: '2px solid grey' }}>
-                <Typography variant="h6" gutterBottom>
-                  Customizable Layouts
-                </Typography>
-                <Typography color="textSecondary" sx={{ color: 'white'}}>
-                  Tailor your flashcards to suit your learning style with various design options.
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Box textAlign="center" padding={8}  sx={{ border: '2px solid grey', height: 'full', borderBlockStyle: 'round' }}>
-                <Typography variant="h6" gutterBottom>
-                  Sync Across Devices
-                </Typography>
-                <Typography color="textSecondary" sx={{ color: 'white'}}>
-                  Access your flashcards on any device, anytime, anywhere, anytime, anywhere.
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+	{/* <!-- Component Start --> */}
+	<div className="flex flex-wrap items-center justify-center w-full max-w-4xl mt-8 ">
+		<div className=" group flex flex-col flex-grow mt-8 overflow-hidden bg-white rounded-lg shadow-lg hover:scale-[1.03] transition duration-300 ease-in-out">
+			<div className="flex flex-col items-center p-10 bg-yellow-100 group-hover:bg-yellow-200">
+				<span className="font-semibold">Free Plan</span>
+				<div className="flex items-center">
+					<span className="text-3xl">$</span>
+					<span className="text-5xl font-bold">0</span>
+					<span className="text-2xl text-gray-500">/mo</span>
+				</div>
+			</div> 
+			<div className="p-10">
+				<ul>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Basic Features</span>
+					</li>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Generate with prompt</span>
+					</li>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Save</span>
+					</li>
+				</ul>
+			</div>
+			<div className="flex px-10 pb-10 justfy-center">
+            <SignedOut>
+              <a href="/sign-in" className="flex items-center bg-yellow-100 group-hover:bg-yellow-200 justify-center w-full h-12 px-6 text-sm uppercase bg-gray-200 rounded-lg">Join Now</a>
+            </SignedOut>
+            <SignedIn>
+              <a href="/flashcards" className="flex items-center justify-center w-full h-12 px-6 text-sm uppercase bg-gray-200 rounded-lg">Go to your Cards</a>
+            </SignedIn>
+				{/* <button className="flex items-center justify-center w-full h-12 px-6 text-sm uppercase bg-gray-200 rounded-lg">Join now</button> */}
+			</div>
+		</div>
 
-        {/* Pricing Section */}
-        <Box sx={{ py: 8, textAlign: 'center' }}>
-          <Typography variant="h4" component="h2" gutterBottom marginBottom={8} >
-            Pricing
-          </Typography>
-          <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12} md={4}>
-              <Card
-                sx={{
-                  backgroundColor: '#154c79', // Blue background color for the card
-                  color: 'white', // White text for contrast
-                  boxShadow: 3, // Optional: Card shadow for depth
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                    boxShadow: 6,
-                  },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h5" gutterBottom>
-                    Free Plan
-                  </Typography>
-                  <Typography variant="h6">$0 / month</Typography>
-                  <Typography color="inherit" paragraph>
-                    Basic features for casual learners.
-                  </Typography>
-                  <SignedOut>
-                    <Button href='/sign-in'
-                      variant="contained"
-                      sx={{
-                        mt: 2,
-                        bgcolor: '#1976d2', // Blue color for the button
-                        color: 'white', // White text for contrast
-                        '&:hover': {
-                          bgcolor: '#1565c0', // Darker blue for hover effect
-                        },
-                      }}
-                    >
-                      Login
-                    </Button>
-                  </SignedOut>
-                  <SignedIn>
-                    <Button href='/flashcards'
-                      variant="contained"
-                      sx={{
-                        mt: 2,
-                        bgcolor: '#1976d2', // Blue color for the button
-                        color: 'white', // White text for contrast
-                        '&:hover': {
-                          bgcolor: '#1565c0', // Darker blue for hover effect
-                        },
-                      }}
-                    >
-                      Dashboard
-                    </Button>
-                  </SignedIn>
+		{/* <!-- Tile 2 --> */}
+		<div className="group z-10 flex flex-col flex-grow mt-8 overflow-hidden transform bg-white rounded-lg shadow-lg md:scale-110 hover:scale-[1.2] transition duration-300 ease-in-out">
+			<div className="flex flex-col items-center p-10 bg-orange-100 group-hover:bg-orange-200">
+				<span className="font-semibold">Pro Plan</span>
+				<div className="flex items-center">
+					<span className="text-3xl">$</span>
+					<span className="text-6xl font-bold">10</span>
+					<span className="text-2xl text-gray-500">/mo</span>
+				</div>
+			</div>
+			<div className="p-10">
+				<ul>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2"> Advanced features+</span>
+					</li>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Adaptive Levels</span>
+					</li>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Generate from PDFs</span>
+					</li>
+				</ul>
+			</div>
+			<div className="flex px-10 pb-10 justfy-center">
+      <button  
+        onClick={handleSubmit}
+        className="flex items-center justify-center w-full h-12 px-6 text-sm uppercase bg-orange-100 group-hover:bg-orange-200 rounded-lg"
+      >
+        Join now
+      </button>
+			</div>
+		</div>
 
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Card
-                sx={{
-                  backgroundColor: '#154c79', // Blue background color for the card
-                  color: 'white', // White text for contrast
-                  boxShadow: 3, // Optional: Card shadow for depth
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                    boxShadow: 6,
-                  },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h5" gutterBottom>
-                    Pro Plan
-                  </Typography>
-                  <Typography variant="h6">$10 / month</Typography>
-                  <Typography color="inherit" paragraph>
-                    Advanced features for power users.
-                  </Typography>
-                  <Button
-                    onClick={handleSubmit}
-                    variant="contained"
-                    sx={{
-                      mt: 2,
-                      bgcolor: '#1976d2', // Blue color for the button
-                      color: 'white', // White text for contrast
-                      '&:hover': {
-                        bgcolor: '#1565c0', // Darker blue for hover effect
-                      },
-                    }}
-                  >
-                    Get Pro
-                  </Button>
+		{/* <!-- Tile 3 --> */}
+		<div className="group flex flex-col flex-grow overflow-hidden bg-white rounded-lg shadow-lg mt-8 hover:scale-[1.03] transition duration-300 ease-in-out">
+			<div className="flex flex-col items-center p-10 bg-yellow-100 group-hover:bg-yellow-200">
+				<span className="font-semibold">Free Plan</span>
+				<div className="flex items-center">
+					<span className="text-3xl">$</span>
+					<span className="text-5xl font-bold">0</span>
+					<span className="text-2xl text-gray-500">/mo</span>
+				</div>
+			</div>
+			<div className="p-10">
+				<ul>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Basic Features</span>
+					</li>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Generate with prompt</span>
+					</li>
+					<li className="flex items-center">
+						<svg className="w-5 h-5 text-green-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+						<span className="ml-2">Save</span>
+					</li>
+				</ul>
+			</div>
+			<div className="flex px-10 pb-10 justfy-center">
+            <SignedOut>
+              <a href="/sign-in" className="flex items-center justify-center w-full h-12 px-6 text-sm uppercase bg-yellow-100 group-hover:bg-yellow-200 rounded-lg">Join Now</a>
+            </SignedOut>
+            <SignedIn>
+              <a href="/flashcards" className="flex items-center justify-center w-full h-12 px-6 text-sm uppercase bg-yellow-100 group-hover:bg-yellow-200 rounded-lg">Go to your Cards</a>
+            </SignedIn>
+			</div>
+		</div>
+	</div>
+	{/* <!-- Component End  --> */}
 
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </Box>
-
-      </Container>
+</div>
+      </section>
 
       {/* Add the keyframes for gradient animation */}
       <style jsx global>{`
@@ -260,6 +333,6 @@ export default function Home() {
           }
         }
       `}</style>
-    </Box>
+    </div>
   );
 }
