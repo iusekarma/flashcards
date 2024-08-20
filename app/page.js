@@ -2,6 +2,7 @@
 import { SignedOut, SignedIn, UserButton } from '@clerk/nextjs';
 import getStripe from './utils/get-stripe';
 import Image from 'next/image';
+import Header from './components/Header';
 
 export default function Home() {
   const handleSubmit = async () => {
@@ -48,22 +49,23 @@ export default function Home() {
           />
         </div>
 
-      <header className="bg-transparent p-6 flex justify-between items-center">
-        <div className="ml-10 mt-7">
+      {/* <header className="bg-transparent p-6 flex justify-between items-center">
+        <div className="ml-10 mt-7"> */}
           {/* Logo or Title can go here */}
-        </div>
+        {/* </div>
         <div className="mr-10">
-          <SignedOut>
+          <SignedOut> */}
             {/* Uncomment to enable sign-in and sign-up buttons
             <a href="/sign-in" className="text-white mr-4">Login</a>
             <a href="/sign-up" className="text-white">Sign Up</a>
             */}
-          </SignedOut>
+          {/* </SignedOut>
           <SignedIn>
             <UserButton />
           </SignedIn>
-        </div>
-      </header>
+        </div> 
+      </header> */}
+      <Header />
 
       <main className="flex-grow container mx-auto flex flex-col items-center justify-center text-center py-16">
         <img
