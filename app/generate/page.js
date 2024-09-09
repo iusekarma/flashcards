@@ -16,6 +16,7 @@ import {
     DialogContentText,
     DialogActions
 } from '@mui/material';
+import FileUpload from "../components/FileUpload";
 import { useUser } from "@clerk/nextjs";
 import { collection, doc, getDoc, writeBatch } from 'firebase/firestore';
 import { useRouter } from 'next/navigation'; // Import useRouter
@@ -114,6 +115,7 @@ export default function Generate() {
                 >
                     Generate Flashcards
                 </Button>
+                <FileUpload/>
             </Box>
 
             {flashcards.length > 0 && (
